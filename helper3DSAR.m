@@ -6,8 +6,8 @@ data.clight = 299792458.0;
 data.Wx = 100;
 data.Wy = 100;
 data.Nfft = 1024*4;
-data.Nx = 128*4;
-data.Ny = 128*4;
+data.Nx = 128*1;
+data.Ny = 128*1;
 data.x0 = 0;
 data.y0 = 0;
 
