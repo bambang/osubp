@@ -70,12 +70,10 @@ t = zeros(1,data.Np);
 for ii = 1:data.Np
     
     % Display status of the imaging process
-    if ii > 1
+    if ii > 1 && mod(ii,100)==0
         t_sofar = sum(t(1:(ii-1)));
         t_est = (t_sofar*data.Np/(ii-1)-t_sofar)/60;
         fprintf('Pulse %d of %d, %.02f minutes remaining\n',ii,data.Np,t_est);
-    else
-        fprintf('Pulse %d of %d\n',ii,data.Np);
     end
     tic
 
