@@ -1,3 +1,9 @@
+# Ohio State PyCUDA SAR Backprojection demo script
+# Extending and utilizing AFRL bpBasic Matlab package
+#
+# Ahmed Fasih, fasih.1@osu.edu
+# see accompanying Mercurial repo for history
+
 from mlabwrap import mlab
 import pycuda.autoinit
 import pycuda.driver as drv
@@ -48,9 +54,10 @@ def show_image(im):
 
 
 # Use Matlab to load and pre-process the data. Returns "data" struct
-mlab.addpath('../FasihSarStuff/', nout=0)
-data = mlab.helper3DSAR()
-#data = mlab.helperMTI()
+data = mlab.helper3DSAR() # AFRL Volumetric Dataset
+#data = mlab.helperMTI()   # AFRL GMTI Dataset
+
+# Perform FFT/upsampling/windowing in Matlab
 data = mlab.rangeCompress(data)
 
 
@@ -73,11 +80,8 @@ platform_info = four_to_4chan(mdouble(data.AntX), mdouble(data.AntY),
 
 # Load CUDA source file
 src = grabsource('PyCUDABackProjectionKernel.cu')
-#mod = SourceModule(src, 
-#        include_dirs=['.','/home/aldebrn/NVIDIA_GPU_Computing_SDK/C/common/inc',
-#            '/home/aldebrn/matlab2009a/extern/include'])
 mod = SourceModule(src, 
-        include_dirs=['.', '/home/aldebrn/matlab2009a/extern/include'])
+        include_dirs=['.'])
 
 # Set up CUDA texture for range projections
 tex_projections = mod.get_texref('tex_projections')
